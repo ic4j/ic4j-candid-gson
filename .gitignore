@@ -3,3 +3,5 @@
 /build-export.gradle
 /gradle.properties
 /.classpath
+/secring.gpg
+/build/

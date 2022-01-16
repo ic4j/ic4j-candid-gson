@@ -1,6 +1,6 @@
 ## JSON (Gson) serialization and deserialization
 
-Use JacksonSerializer to serialize Gson JsonElement or Gson compatible Pojo class to Candid
+Use GsonSerializer to serialize Gson JsonElement or Gson compatible Pojo class to Candid
 
 ```
 JsonElement jsonValue;
@@ -21,3 +21,35 @@ Use GsonDeserializer to deserialize Candid to Gson JsonElement or Gson compatibl
 JsonElement jsonResult = IDLArgs.fromBytes(buf).getArgs().get(0)
 	.getValue(GsonDeserializer.create(idlValue.getIDLType()), JsonElement.class);
 ```
+
+# Downloads / Accessing Binaries
+
+To add Java IC4J Candid library to your Java project use Maven or Gradle import from Maven Central.
+
+<a href="https://search.maven.org/artifact/ic4j/ic4j-candid-gson/0.6.0/jar">
+https://search.maven.org/artifact/ic4j/ic4j-candid-gson/0.6.0/jar
+</a>
+
+```
+<dependency>
+  <groupId>org.ic4j</groupId>
+  <artifactId>ic4j-candid-gson</artifactId>
+  <version>0.6.0</version>
+</dependency>
+```
+
+```
+implementation 'org.ic4j:ic4j-candid-gson:0.6.0'
+```
+
+## Dependencies
+
+This this is using these open source libraries
+
+
+### Gson JSON Serializer and Deserializer
+To manage Gson objects.
+
+# Build
+
+You need JDK 8+ to build IC4J Candid Gson.

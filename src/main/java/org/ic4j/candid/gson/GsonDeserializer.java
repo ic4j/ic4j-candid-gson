@@ -190,7 +190,7 @@ public class GsonDeserializer implements ObjectDeserializer {
 		if (type == Type.RECORD || type == Type.VARIANT) {
 			JsonObject treeNode = new JsonObject();
 
-			Map<Integer, Object> valueMap = (Map<Integer, Object>) value;
+			Map<Label, Object> valueMap = (Map<Label, Object>) value;
 
 			Map<Label, IDLType> typeMap = idlType.getTypeMap();
 
@@ -199,33 +199,31 @@ public class GsonDeserializer implements ObjectDeserializer {
 			if (expectedIdlType.isPresent() && expectedIdlType.get().getTypeMap() != null)
 				expectedTypeMap = expectedIdlType.get().getTypeMap();
 
-			Set<Integer> hashes = valueMap.keySet();
+			Set<Label> labels = valueMap.keySet();
 
-			Map<Integer, Label> expectedLabels = new TreeMap<Integer, Label>();
+			Map<Long, Label> expectedLabels = new TreeMap<Long, Label>();
 
 			for (Label entry : expectedTypeMap.keySet())
 				expectedLabels.put(entry.getId(), entry);
 
-			for (Integer hash : hashes) {
+			for (Label label : labels) {
 				String fieldName;
 
-				Label hashLabel = Label.createIdLabel(hash);
-
-				IDLType itemIdlType = typeMap.get(hashLabel);
+				IDLType itemIdlType = typeMap.get(label);
 
 				IDLType expectedItemIdlType = null;
 
-				if (expectedTypeMap.containsKey(Label.createIdLabel(hash))) {
-					expectedItemIdlType = expectedTypeMap.get(hashLabel);
+				if (expectedTypeMap.containsKey(label)) {
+					expectedItemIdlType = expectedTypeMap.get(label);
 
-					Label expectedLabel = expectedLabels.get(hash);
+					Label expectedLabel = expectedLabels.get(label.getId());
 
 					fieldName = expectedLabel.getValue().toString();
 				} else
-					fieldName = hashLabel.toString();
+					fieldName = label.toString();
 
 				JsonElement itemNode = this.getValue(itemIdlType, Optional.ofNullable(expectedItemIdlType),
-						valueMap.get(hash));
+						valueMap.get(label));
 
 				treeNode.add(fieldName, itemNode);
 			}

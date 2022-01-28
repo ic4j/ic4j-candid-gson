@@ -212,7 +212,7 @@ public class GsonSerializer implements ObjectSerializer {
 		if (type == Type.RECORD || type == Type.VARIANT) {
 			JsonObject objectNode = (JsonObject) value;
 
-			Map<String, Object> valueMap = new TreeMap<String, Object>();
+			Map<Label, Object> valueMap = new TreeMap<Label, Object>();
 			Map<Label, IDLType> typeMap = new TreeMap<Label, IDLType>();
 			Map<Label, IDLType> expectedTypeMap = new TreeMap<Label, IDLType>();
 
@@ -239,7 +239,7 @@ public class GsonSerializer implements ObjectSerializer {
 				IDLValue itemIdlValue = this.getIDLValue(Optional.ofNullable(expectedItemIdlType), item);
 
 				typeMap.put(Label.createNamedLabel((String) name), itemIdlValue.getIDLType());
-				valueMap.put(name, itemIdlValue.getValue());
+				valueMap.put(Label.createNamedLabel((String) name), itemIdlValue.getValue());
 			}
 
 			IDLType idlType = IDLType.createType(Type.RECORD, typeMap);

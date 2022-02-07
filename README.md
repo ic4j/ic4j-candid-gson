@@ -26,20 +26,20 @@ JsonElement jsonResult = IDLArgs.fromBytes(buf).getArgs().get(0)
 
 To add Java IC4J Candid library to your Java project use Maven or Gradle import from Maven Central.
 
-<a href="https://search.maven.org/artifact/ic4j/ic4j-candid-gson/0.6.2/jar">
-https://search.maven.org/artifact/ic4j/ic4j-candid-gson/0.6.2/jar
+<a href="https://search.maven.org/artifact/ic4j/ic4j-candid-gson/0.6.3/jar">
+https://search.maven.org/artifact/ic4j/ic4j-candid-gson/0.6.3/jar
 </a>
 
 ```
 <dependency>
   <groupId>org.ic4j</groupId>
   <artifactId>ic4j-candid-gson</artifactId>
-  <version>0.6.2</version>
+  <version>0.6.3</version>
 </dependency>
 ```
 
 ```
-implementation 'org.ic4j:ic4j-candid-gson:0.6.2'
+implementation 'org.ic4j:ic4j-candid-gson:0.6.3'
 ```
 
 ## Dependencies

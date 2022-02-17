@@ -141,6 +141,8 @@ public class GsonDeserializer implements ObjectDeserializer {
 			if (idlType != null)
 				idlType = expectedIdlType.get();
 		}
+		else if(idlType != null)
+			type = idlType.getType();
 
 		if (type.isPrimitive())
 			return this.getPrimitiveValue(type, value);
@@ -188,6 +190,7 @@ public class GsonDeserializer implements ObjectDeserializer {
 		}
 
 		if (type == Type.RECORD || type == Type.VARIANT) {
+			JsonArray arrayNode = new JsonArray();
 			JsonObject treeNode = new JsonObject();
 
 			Map<Label, Object> valueMap = (Map<Label, Object>) value;
@@ -207,6 +210,11 @@ public class GsonDeserializer implements ObjectDeserializer {
 				expectedLabels.put(entry.getId(), entry);
 
 			for (Label label : labels) {
+				boolean isNamed = false;
+				
+				if(label.getType() == Label.LabelType.NAMED)
+					isNamed = true;
+				
 				String fieldName;
 
 				IDLType itemIdlType = typeMap.get(label);
@@ -217,18 +225,32 @@ public class GsonDeserializer implements ObjectDeserializer {
 					expectedItemIdlType = expectedTypeMap.get(label);
 
 					Label expectedLabel = expectedLabels.get(label.getId());
+					
+					if(expectedLabel.getType() == Label.LabelType.NAMED)
+						isNamed = true;
 
 					fieldName = expectedLabel.getValue().toString();
 				} else
-					fieldName = label.toString();
+					fieldName = label.getValue().toString();
 
 				JsonElement itemNode = this.getValue(itemIdlType, Optional.ofNullable(expectedItemIdlType),
 						valueMap.get(label));
 
-				treeNode.add(fieldName, itemNode);
+				if(isNamed)
+					treeNode.add(fieldName, itemNode);
+				else
+					arrayNode.add(itemNode);
 			}
 
-			return treeNode;
+			if(arrayNode.isEmpty())
+				return treeNode;
+			else if(treeNode.size() == 0)
+				return arrayNode;
+			else
+			{
+				arrayNode.add(treeNode);
+				return arrayNode;
+			}
 		}
 		throw CandidError.create(CandidError.CandidErrorCode.CUSTOM, "Cannot convert type " + type.name());
 	}

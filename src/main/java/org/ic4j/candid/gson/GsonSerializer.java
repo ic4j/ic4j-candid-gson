@@ -227,7 +227,7 @@ public class GsonSerializer implements ObjectSerializer {
 					JsonElement item = arrayNode.get(i);
 					IDLType expectedItemIdlType;
 					
-					if (expectedIdlType.isPresent() && expectedTypeMap != null)
+					if (expectedTypeMap != null && expectedIdlType.isPresent())
 						expectedItemIdlType = expectedTypeMap.get(Label.createUnnamedLabel((long)i));
 					else
 						expectedItemIdlType = IDLType.createType(this.getType(item));
@@ -254,7 +254,7 @@ public class GsonSerializer implements ObjectSerializer {
 	
 					IDLType expectedItemIdlType;
 	
-					if (expectedIdlType.isPresent() && expectedTypeMap != null)
+					if (expectedTypeMap != null && expectedIdlType.isPresent())
 						expectedItemIdlType = expectedTypeMap.get(Label.createNamedLabel(name));
 					else
 						expectedItemIdlType = IDLType.createType(this.getType(item));

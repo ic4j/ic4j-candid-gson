@@ -92,9 +92,10 @@ public final class GsonTest {
 		byte[] buf = idlArgs.toBytes();
 
 		GsonPojo pojoResult = IDLArgs.fromBytes(buf).getArgs().get(0)
-				.getValue(GsonDeserializer.create(idlValue.getIDLType()), GsonPojo.class);
+				.getValue(GsonDeserializer.create(), GsonPojo.class);
 
 		Assertions.assertEquals(pojo, pojoResult);
+		
 	}
 
 	void testJson(String fileName, IDLType idlType) {

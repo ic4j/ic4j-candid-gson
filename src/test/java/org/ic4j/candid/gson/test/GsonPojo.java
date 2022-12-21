@@ -2,10 +2,18 @@ package org.ic4j.candid.gson.test;
 
 import java.math.BigInteger;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class GsonPojo {
+	@SerializedName("bar")
 	public Boolean bar;
 
+	@SerializedName("foo")
 	public BigInteger foo;
+	
+	@Expose(serialize = false, deserialize = false)
+	public String dummy;	
 	
 	// Just for testing purposes, JUnit uses equals
 	@Override

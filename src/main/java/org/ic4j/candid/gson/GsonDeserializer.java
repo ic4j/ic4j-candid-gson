@@ -25,6 +25,7 @@ import java.util.TreeMap;
 
 import org.ic4j.candid.CandidError;
 import org.ic4j.candid.ObjectDeserializer;
+import org.ic4j.candid.jackson.JacksonSerializer;
 import org.ic4j.candid.parser.IDLType;
 import org.ic4j.candid.parser.IDLValue;
 import org.ic4j.candid.types.Label;
@@ -54,14 +55,30 @@ public class GsonDeserializer implements ObjectDeserializer {
 		GsonDeserializer deserializer = new GsonDeserializer();
 		return deserializer;
 	}
+	
+	public void setIDLType(IDLType idlType)
+	{
+		this.idlType = Optional.ofNullable(idlType);
+	}
+	
+	public Class<?> getDefaultResponseClass() {
+		return JsonElement.class;
+	}	
 
 	@Override
 	public <T> T deserialize(IDLValue value, Class<T> clazz) {
 		if (clazz != null) {
-			JsonElement jsonElement = this.getValue(value.getIDLType(), this.idlType, value.getValue());
+			
 			if (JsonElement.class.isAssignableFrom(clazz))
+			{
+				JsonElement jsonElement = this.getValue(value.getIDLType(), this.idlType, value.getValue());
 				return (T) jsonElement;
+			}
 			else {
+				if(!this.idlType.isPresent())
+					this.idlType = Optional.ofNullable(GsonSerializer.getIDLType(clazz));
+				
+				JsonElement jsonElement = this.getValue(value.getIDLType(), this.idlType, value.getValue());
 				return (T) gson.fromJson(jsonElement, clazz);
 			}
 		} else

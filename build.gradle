@@ -8,12 +8,13 @@
 
 plugins {
     id 'java'
+    id 'maven-publish'
     id 'eclipse'
 }
 
 
 group 'org.ic4j'
-version '0.6.19.7'
+version '0.8.5'
 
 sourceCompatibility = 1.8
 
@@ -48,18 +49,29 @@ test {
 }
 
 dependencies {
-	implementation group: 'org.ic4j', name: 'ic4j-candid', version: '0.6.19.7'
+	implementation group: 'org.ic4j', name: 'ic4j-candid', version: '0.8.5'
 
 	// https://mvnrepository.com/artifact/com.google.code.gson/gson
-	implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.15.0'
 	
 	// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
-	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.9.2'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.14.4'
+	testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.14.4'
 		
 	// https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-	testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.6'	
+	testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.20'
 	
 	// https://mvnrepository.com/artifact/org.skyscreamer/jsonassert
 	testImplementation group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.1'	
 }
 
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = 'ic4j-candid-gson'
+        }
+    }
+}
